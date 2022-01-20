@@ -1,7 +1,6 @@
 import {
     createContext,
     useContext,
-    useState,
 } from "react";
 
 import {
@@ -9,17 +8,17 @@ import {
     IBudget,
     IExpense,
 } from "../contexts/BudgetsContext";
+import useLocalStorage from "../hooks/useLocalStorage";
 
+export const BudgetsCtx = createContext<BudgetContext>(undefined!);
 
 export function useBudgets() {
-    useContext(BudgetsCtx);
+    return useContext(BudgetsCtx);
 }
 
-export const BudgetsCtx = createContext<BudgetContext | null>(null);
-
 export const BudgetsProvider = ({ children }: any) => {
-    const [budgets, setBudgets] = useState<IBudget[]>([]);
-    const [expenses, setExpenses] = useState<IExpense[]>([]);
+    const [budgets, setBudgets] = useLocalStorage<IBudget>('budgets', []);
+    const [expenses, setExpenses] = useLocalStorage<IExpense>('expenses', []);
 
     const budgetContext = new BudgetContext(
         { value: budgets, setValue: setBudgets },

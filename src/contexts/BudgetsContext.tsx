@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction} from "react"
+import { Dispatch, SetStateAction } from "react"
 import { v4 as uuidV4 } from 'uuid';
 
 interface IRecord {
@@ -25,7 +25,7 @@ export interface IBudget extends IBudgetOptions, IRecord {};
 
 export interface IExpense extends IExpenseOptions, IRecord {};
 
-interface IBudgetContext {
+export interface IBudgetContext {
     budgets: IBudget[];
     expenses: IExpense[];
     getBudgetExpenses: (id: string) => IExpense[];
