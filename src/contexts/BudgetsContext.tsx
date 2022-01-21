@@ -28,7 +28,7 @@ export interface IExpense extends IExpenseOptions, IRecord {};
 export interface IBudgetContext {
     budgets: IBudget[];
     expenses: IExpense[];
-    getBudgetExpenses: (id: string) => IExpense[];
+    getBudgetExpenses: (id?: string) => IExpense[];
     addBudget: (budget: IBudgetOptions) => void;
     addExpense: (expense: IExpenseOptions) => void;
     deleteBudget: (id: string) => void;
@@ -47,7 +47,7 @@ export class BudgetContext implements IBudgetContext {
     constructor(private budgetsState: IState<IBudget>, private expensesState: IState<IExpense>) {
     }
 
-    public getBudgetExpenses(id: string) {
+    public getBudgetExpenses(id?: string) {
         return this.expenses.filter(e => e.budgetId === id);
     }
 

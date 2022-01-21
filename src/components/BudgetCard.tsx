@@ -1,11 +1,11 @@
 import { Button, Card, ProgressBar, Stack } from "react-bootstrap";
 import { currencyFormatter } from "../utils";
 
-interface IBudgetCard {
+export interface IBudgetCard {
     amount: number;
-    max: number;
-    name: string,
     gray?: boolean;
+    max?: number;
+    name: string,
     onAddExpenseClick: () => void;
 }
 
@@ -25,11 +25,13 @@ function getProgressBarVariant(amount: number, max: number): string {
 
 export default function BudgetCard({ name, amount, max, gray, onAddExpenseClick }: IBudgetCard) {
     const classNames = [];
+    let showAddButton = true;
 
-    if (amount > max) {
-        classNames.push('bg-danger', 'bg-opacity-10');
-    } else if (gray) {
+    if (!max || gray) {
         classNames.push('bg-light');
+        showAddButton = false;
+    } else if (amount > max) {
+        classNames.push('bg-danger', 'bg-opacity-10');
     }
 
     return (
@@ -39,27 +41,29 @@ export default function BudgetCard({ name, amount, max, gray, onAddExpenseClick 
                     <div className="me-2">{name}</div>
                     <div className="d-flex align-items-baseline">
                         {currencyFormatter.format(amount)}
+                        {max && (
                         <span className="text-muted fs-6 ms-1">
                             / {currencyFormatter.format(max)}
-                        </span>
+                        </span>)}
                     </div>
                 </Card.Title>
+                {max && (
                 <ProgressBar
                     className="rounded-pill"
                     variant={getProgressBarVariant(amount, max)}
                     min={0}
                     max={max}
                     now={amount}
-                />
+                />)}
 
-                <Stack direction="horizontal" gap={2} className="mt-4">
+                <Stack direction="horizontal" gap={2} className="mt-4 justify-content-end">
+                    {showAddButton && (
                     <Button
                         variant="outline-primary"
-                        className="ms-auto"
                         onClick={onAddExpenseClick}
                     >
                         Add Expense
-                    </Button>
+                    </Button>)}
 
                     <Button variant="outline-secondary">
                         View Expenses

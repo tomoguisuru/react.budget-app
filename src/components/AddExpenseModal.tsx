@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
+import { DEFAULT_BUDGET } from "../App";
 import { IExpenseOptions } from "../contexts/BudgetsContext";
 import { useBudgets } from "../providers/BudgetsProvider";
 
@@ -8,6 +9,7 @@ interface IModalParams {
     handleClose?: () => void;
     defaultBudgetId?: string;
 }
+
 
 export default function AddExpenseModal({ show, handleClose, defaultBudgetId }: IModalParams)  {
     const descriptionRef = useRef() as React.MutableRefObject<HTMLInputElement>;
@@ -19,9 +21,11 @@ export default function AddExpenseModal({ show, handleClose, defaultBudgetId }: 
     function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
 
+        const budgetId = budgetIdRef.current.value;
+
         const expense: IExpenseOptions = {
             amount: parseFloat(amountRef.current.value),
-            budgetId: budgetIdRef.current.value,
+            budgetId: budgetId === DEFAULT_BUDGET ? undefined : budgetId,
             description: descriptionRef.current.value,
         };
 
@@ -71,7 +75,9 @@ export default function AddExpenseModal({ show, handleClose, defaultBudgetId }: 
                             ref={budgetIdRef}
                             disabled={defaultBudgetId !== undefined}
                         >
-                            <option value={undefined}>
+                            <option
+                                value={undefined}
+                            >
                                 Uncategorized
                             </option>
                             {ctx.budgets.map(b => {

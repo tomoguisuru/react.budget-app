@@ -6,6 +6,9 @@ import { useState } from 'react';
 import { IBudget } from './contexts/BudgetsContext';
 import { useBudgets } from './providers/BudgetsProvider';
 import AddExpenseModal from './components/AddExpenseModal';
+import DefaultBudgetCard from './components/DefaultBudgetCard';
+
+export const DEFAULT_BUDGET = 'Uncategorized';
 
 function App() {
   const [showAddBudgetModal, setShowAddBudgetModal] = useState(false);
@@ -49,6 +52,12 @@ function App() {
               />
             )
           })}
+
+          <DefaultBudgetCard
+            name={DEFAULT_BUDGET}
+            amount={ctx.getBudgetExpenses().reduce((rv, exp) => rv + exp.amount, 0)}
+            onAddExpenseClick={() => showExpenseModal()}
+          />
 
         </div>
       </Container>
