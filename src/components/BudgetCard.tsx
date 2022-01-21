@@ -6,6 +6,7 @@ interface IBudgetCard {
     max: number;
     name: string,
     gray?: boolean;
+    onAddExpenseClick: () => void;
 }
 
 function getProgressBarVariant(amount: number, max: number): string {
@@ -22,7 +23,7 @@ function getProgressBarVariant(amount: number, max: number): string {
     return 'danger';
 }
 
-export default function BudgetCard({ name, amount, max, gray }: IBudgetCard) {
+export default function BudgetCard({ name, amount, max, gray, onAddExpenseClick }: IBudgetCard) {
     const classNames = [];
 
     if (amount > max) {
@@ -38,7 +39,9 @@ export default function BudgetCard({ name, amount, max, gray }: IBudgetCard) {
                     <div className="me-2">{name}</div>
                     <div className="d-flex align-items-baseline">
                         {currencyFormatter.format(amount)}
-                        <span className="text-muted fs-6 ms-1">/ {currencyFormatter.format(max)}</span>
+                        <span className="text-muted fs-6 ms-1">
+                            / {currencyFormatter.format(max)}
+                        </span>
                     </div>
                 </Card.Title>
                 <ProgressBar
@@ -50,9 +53,14 @@ export default function BudgetCard({ name, amount, max, gray }: IBudgetCard) {
                 />
 
                 <Stack direction="horizontal" gap={2} className="mt-4">
-                    <Button variant="outline-primary" className="ms-auto">
+                    <Button
+                        variant="outline-primary"
+                        className="ms-auto"
+                        onClick={onAddExpenseClick}
+                    >
                         Add Expense
                     </Button>
+
                     <Button variant="outline-secondary">
                         View Expenses
                     </Button>
