@@ -1,9 +1,12 @@
 import BudgetCard from "./BudgetCard";
 
 interface ISimpleBudgetCard {
-    name: string;
     amount: number;
+    gray?: boolean;
+    name: string;
+    max?: number;
     onAddExpenseClick: () => void;
+    onExpensesClick: () => void;
 }
 
 export default function DefaultBudgetCard(props: ISimpleBudgetCard) {

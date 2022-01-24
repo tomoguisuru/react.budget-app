@@ -47,6 +47,10 @@ export class BudgetContext implements IBudgetContext {
     constructor(private budgetsState: IState<IBudget>, private expensesState: IState<IExpense>) {
     }
 
+    public getBudget(id?: string) {
+        return this.budgets.find(e => e.id === id);
+    }
+
     public getBudgetExpenses(id?: string) {
         return this.expenses.filter(e => e.budgetId === id);
     }
@@ -60,7 +64,7 @@ export class BudgetContext implements IBudgetContext {
     }
 
     public deleteBudget(id: string) {
-        this.deleteRecord(this.budgetsState, id);
+        this.budgetsState.setValue(bs => bs.filter(b => b.id !== id));
 
         this.expenses
             .filter(e => e.budgetId === id)
@@ -70,14 +74,10 @@ export class BudgetContext implements IBudgetContext {
     }
 
     public deleteExpense(id: string) {
-        this.deleteRecord(this.expensesState, id);
+        this.expensesState.setValue(exps => exps.filter(e => e.id !== id));
     }
 
     private addRecord<T>(state: IState<T>, record: any) {
         state.setValue(prev => [...prev, {...record, id: uuidV4() }]);
-    }
-
-    private deleteRecord<T extends IRecord>(state: IState<T>, id: string) {
-        state.setValue(prev => prev.filter(r => r.id !== id));
     }
 }

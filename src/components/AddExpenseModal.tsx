@@ -69,7 +69,7 @@ export default function AddExpenseModal({ show, handleClose, defaultBudgetId }: 
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="budgetId">
-                        <Form.Label>Amount</Form.Label>
+                        <Form.Label>Budget</Form.Label>
                         <Form.Select
                             defaultValue={defaultBudgetId}
                             ref={budgetIdRef}

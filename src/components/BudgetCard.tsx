@@ -7,6 +7,7 @@ export interface IBudgetCard {
     max?: number;
     name: string,
     onAddExpenseClick: () => void;
+    onExpensesClick: () => void;
 }
 
 function getProgressBarVariant(amount: number, max: number): string {
@@ -23,7 +24,7 @@ function getProgressBarVariant(amount: number, max: number): string {
     return 'danger';
 }
 
-export default function BudgetCard({ name, amount, max, gray, onAddExpenseClick }: IBudgetCard) {
+export default function BudgetCard({ name, amount, max, gray, onAddExpenseClick, onExpensesClick }: IBudgetCard) {
     const classNames = [];
     let showAddButton = true;
 
@@ -47,6 +48,7 @@ export default function BudgetCard({ name, amount, max, gray, onAddExpenseClick 
                         </span>)}
                     </div>
                 </Card.Title>
+
                 {max && (
                 <ProgressBar
                     className="rounded-pill"
@@ -65,7 +67,10 @@ export default function BudgetCard({ name, amount, max, gray, onAddExpenseClick 
                         Add Expense
                     </Button>)}
 
-                    <Button variant="outline-secondary">
+                    <Button
+                        variant="outline-secondary"
+                        onClick={onExpensesClick}
+                    >
                         View Expenses
                     </Button>
                 </Stack>
